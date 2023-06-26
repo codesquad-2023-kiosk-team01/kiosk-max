@@ -19,7 +19,7 @@ export const Content = ({ setBasketList, selectedTab }: ContentProps) => {
     }
 
     setCurrentData(mockData[selectedTab]);
-  }, [selectedTab]);
+  }, [selectedTab, mockData]);
 
   return (
     <div className={styles.content}>

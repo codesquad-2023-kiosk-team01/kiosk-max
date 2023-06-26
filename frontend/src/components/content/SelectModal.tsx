@@ -27,7 +27,7 @@ export const SelectModal = ({
     );
 
     setIsAllSelected(allSelected && menuCount > 0);
-  }, [selectedOptions, menuCount]);
+  }, [selectedOptions, menuCount, modalData.options]);
 
   const increase = () => {
     if (menuCount + 1 < 99) {
