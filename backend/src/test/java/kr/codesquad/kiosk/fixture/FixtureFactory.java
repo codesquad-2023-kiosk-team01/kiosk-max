@@ -1,5 +1,7 @@
 package kr.codesquad.kiosk.fixture;
 
+import kr.codesquad.kiosk.category.domain.Category;
+import kr.codesquad.kiosk.category.dto.response.CategoryResponse;
 import kr.codesquad.kiosk.item.controller.dto.response.ItemDetailsResponse;
 import kr.codesquad.kiosk.item.domain.Item;
 import kr.codesquad.kiosk.item.domain.Options;
@@ -8,11 +10,41 @@ import kr.codesquad.kiosk.orders.controller.dto.OrdersResponse;
 import kr.codesquad.kiosk.payment.controller.response.PaymentResponse;
 import kr.codesquad.kiosk.payment.domain.Payment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FixtureFactory {
+
+	public static List<CategoryResponse> createCategoriesResponse() {
+		List<Category> categories = createCategories();
+		List<CategoryResponse> categoriesResponse = new ArrayList<>();
+
+		for (Category category : categories) {
+			CategoryResponse response = CategoryResponse.from(category.getId(), category.getName());
+			categoriesResponse.add(response);
+		}
+
+		return categoriesResponse;
+	}
+
+	public static List<Category> createEmptyCategories() {
+		return List.of();
+	}
+
+	public static Category createCategory(int id, String name) {
+		return new Category(id, name);
+	}
+
+	public static List<Category> createCategories() {
+		List<Category> categories = new ArrayList<>();
+		categories.add(createCategory(1, "커피"));
+		categories.add(createCategory(2, "라떼"));
+		categories.add(createCategory(3, "티"));
+
+		return categories;
+	}
 
 	public static ItemDetailsResponse createItemDetailsResponse() {
 		return ItemDetailsResponse.from(createItem(), createOptions());
