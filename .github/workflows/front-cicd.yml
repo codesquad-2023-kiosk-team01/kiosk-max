@@ -11,7 +11,7 @@ env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: kiosk-team01-actions-front-bucket
   CODE_DEPLOY_APPLICATION_NAME: kiosk-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: kiosk-codedeploy-deployment-group
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: kiosk-codedeploy-deployment-front-group
 
 permissions:
   contents: read
@@ -73,3 +73,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=Build
+
