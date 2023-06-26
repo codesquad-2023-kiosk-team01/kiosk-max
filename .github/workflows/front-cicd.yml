@@ -58,13 +58,13 @@ jobs:
         # 3. S3에 파일 업로드(zip 으로 압축 → AWS 권한 부여 → S3로 전송)
         # 3.1 zip 으로 압축
       - name: Make zip file
-        run: zip -r build.zip build
+        run: zip -r ./$GITHUB_SHA.zip .
 
         # 3.3 S3로 전송
       - name: Upload to S3
-        run: aws s3 sync
-          --region '${{ env.AWS_REGION }}'
-          build s3://$S3_BUCKET_NAME
+        run: aws s3 cp
+          --region '${{ env.AWS_REGION }}' ./$GITHUB_SHA.zip
+          s3://$S3_BUCKET_NAME/Build/$GITHUB_SHA.zip
 
         # 4. Code Deploy 단계
       - name: Code Deploy
@@ -72,5 +72,4 @@ jobs:
           --application-name $CODE_DEPLOY_APPLICATION_NAME
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=build
-
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=Build/$GITHUB_SHA.zip
