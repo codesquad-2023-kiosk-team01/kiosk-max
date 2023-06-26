@@ -72,5 +72,5 @@ jobs:
           --application-name $CODE_DEPLOY_APPLICATION_NAME
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$S3_BUCKET_NAME/frontend.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=build.zip
 
