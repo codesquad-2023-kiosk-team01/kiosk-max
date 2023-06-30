@@ -30,7 +30,7 @@ export const Receipt = ({
     if (timer <= 0) {
       clearState();
     }
-  }, [timer]);
+  }, [timer, clearState]);
 
   return (
     <div className={styles.receipt}>

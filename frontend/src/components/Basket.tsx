@@ -91,10 +91,6 @@ export const Basket = ({
     setIsPaying(true);
   };
 
-  const showIndicator = () => {
-    setIsIndicating(true);
-  };
-
   return (
     <div className={styles.basket}>
       <div className={styles.basketList}>
