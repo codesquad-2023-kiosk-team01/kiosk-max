@@ -1,0 +1,189 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  font-size: 30px;
+  width: 1000px;
+  height: 700px;
+  border: 1px;
+  border-radius: 20px;
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent button {
+  font-size: 40px;
+  border: none;
+  background: none;
+}
+
+.modalMenu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  border: 1px solid black;
+  padding: 30px 0;
+}
+
+.noneOptions {
+  flex-direction: column;
+}
+
+.menuOptions {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuOptions .option {
+  display: flex;
+  margin: 10px 0;
+}
+
+.menuOptions .optionButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 10px;
+  background: #c3c3c3;
+  color: white;
+  flex: 1;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.optionRadio[type="radio"]:checked + .optionButton {
+  background: #ff7d37;
+}
+
+.optionRadio {
+  display: none;
+}
+
+.modalMenu img {
+  width: 60%;
+}
+
+.menu .modalTextDiv {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.countNumber {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 50%;
+  margin: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addButton:disabled {
+  width: 100%;
+  font-size: 50px;
+  color: white;
+  background: #c3c3c3;
+  border: none;
+  cursor: pointer;
+}
+
+.addButton {
+  width: 100%;
+  height: 100px;
+  font-size: 50px;
+  color: white;
+  background: #ff7d37;
+  border: none;
+  cursor: pointer;
+}
+
+.closeButton {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%) translateX(-10px) translateY(10px);
+  font-size: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid black;
+}
+
+.closeLogo::before,
+.closeLogo::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 26px;
+  height: 40px;
+  width: 4px;
+  background-color: #000;
+}
+
+.closeLogo::before {
+  transform: rotate(45deg);
+}
+
+.closeLogo::after {
+  transform: rotate(-45deg);
+}
+
+.plusButton,
+.minusButton {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.plusButton:before,
+.plusButton:after,
+.minusButton:before {
+  content: "";
+  position: absolute;
+  background-color: #000;
+}
+
+.plusButton:before,
+.minusButton:before {
+  width: 100%;
+  height: 6px;
+  top: calc(50% - 3px);
+  left: 0;
+}
+
+.plusButton:after {
+  width: 6px;
+  height: 100%;
+  top: 0;
+  left: calc(50% - 3px);
+}

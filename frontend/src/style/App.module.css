@@ -1,6 +1,13 @@
 .app {
-  width: 1000px;
-  height: 1500px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1300px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   border: 3px solid black;
   margin: 0 auto;
+  box-sizing: border-box;
 }

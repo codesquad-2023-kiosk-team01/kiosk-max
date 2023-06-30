@@ -1,0 +1,63 @@
+.receipt {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: auto auto;
+  padding: 50px;
+}
+.orderId {
+  font-size: 55px;
+  margin-bottom: 100px;
+}
+
+tr {
+  border-bottom: 1px solid black;
+}
+
+tr > td,
+tr > th {
+  padding: 20px 0;
+  border-bottom: 1px solid #000;
+}
+
+.receiptContent {
+  width: 100%;
+}
+
+.receiptContent .receiptTable {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.menu {
+  text-align: left;
+}
+
+.unitPrice,
+.quantity,
+.amount {
+  text-align: center;
+}
+
+.options {
+  font-size: 30px;
+}
+
+.paymentInform {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.paymentTable {
+  width: 100%;
+}
+
+.caution {
+  color: #ff7d37;
+}

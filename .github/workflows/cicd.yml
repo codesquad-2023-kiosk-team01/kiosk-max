@@ -3,32 +3,97 @@ name: ci-cd
 on:
   push:
     branches:
-      - release
+      - main
       - backend
+      - frontend
+      - release
   pull_request:
     branches:
-      - release
       - backend
+      - frontend
+      - release
 
 env:
   working-directory: ./backend
+  front-working-directory: ./frontend
   APPLICATION_PROPERTIES_FILE_PATH: ./src/main/resources/application-prod.yml
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: kiosk-team01-actions-bucket
+
+  S3_FRONTEND_BUCKET_NAME: kiosk-team01-actions-front-bucket
+  S3_BACKEND_BUCKET_NAME: kiosk-team01-actions-bucket
+
   CODE_DEPLOY_APPLICATION_NAME: kiosk-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: kiosk-codedeploy-deployment-group
+  CODE_DEPLOY_DEPLOYMENT_BACKEND_GROUP_NAME: kiosk-codedeploy-deployment-group
+  CODE_DEPLOY_DEPLOYMENT_FRONTEND_GROUP_NAME: kiosk-codedeploy-deployment-front-group
 
 permissions:
   contents: read
 
 jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
+
+    steps:
+      # Source 단계
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      # node 설치
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      # 의존성 파일 설치
+      - name: Install dependencies
+        run: npm install
+
+      # Node v 확인
+      - name: Check Node v
+        run: node -v
+
+      # React build
+      - name: React Build
+        run: npm run build
+
+      # AWS 권한 부여
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
+          aws-region: ${{env.AWS_REGION}}
+
+        # 3. S3에 파일 업로드(zip 으로 압축 → AWS 권한 부여 → S3로 전송)
+        # 3.1 zip 으로 압축
+      - name: Make zip file
+        run: zip -r ./$GITHUB_SHA.zip .
+
+        # 3.3 S3로 전송
+      - name: Upload to S3
+        run: aws s3 cp
+          --region '${{ env.AWS_REGION }}' ./$GITHUB_SHA.zip
+          s3://$S3_FRONTEND_BUCKET_NAME/Build/$GITHUB_SHA.zip
+
+        # 4. Code Deploy 단계
+      - name: Code Deploy
+        run: aws deploy create-deployment
+          --application-name $CODE_DEPLOY_APPLICATION_NAME
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_FRONTEND_GROUP_NAME
+          --s3-location bucket=$S3_FRONTEND_BUCKET_NAME,bundleType=zip,key=Build/$GITHUB_SHA.zip
+
   deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: ./backend
-    
+
     steps:
 
       # 0. Source 단계
@@ -73,12 +138,12 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp
           --region '${{ env.AWS_REGION }}' ./$GITHUB_SHA.zip
-          s3://$S3_BUCKET_NAME/Build/$GITHUB_SHA.zip
+          s3://$S3_BACKEND_BUCKET_NAME/Build/$GITHUB_SHA.zip
 
         # 4. Code Deploy 단계
       - name: Code Deploy
         run: aws deploy create-deployment
           --application-name $CODE_DEPLOY_APPLICATION_NAME
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=Build/$GITHUB_SHA.zip
+          --deployment-group-name $CODE_DEPLOY_DEPLOYMENT_BACKEND_GROUP_NAME
+          --s3-location bucket=$S3_BACKEND_BUCKET_NAME,bundleType=zip,key=Build/$GITHUB_SHA.zip
