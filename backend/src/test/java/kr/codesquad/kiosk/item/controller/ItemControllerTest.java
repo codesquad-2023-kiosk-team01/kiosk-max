@@ -1,7 +1,7 @@
 package kr.codesquad.kiosk.item.controller;
 
-import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,7 +33,7 @@ class ItemControllerTest {
 		// given
 		int itemId = 1;
 		ItemDetailsResponse response = FixtureFactory.createItemDetailsResponse();
-		given(itemService.getItemDetails(itemId)).willReturn(response);
+		when(itemService.getItemDetails(itemId)).thenReturn(response);
 
 		// when & then
 		mockMvc.perform(
@@ -53,10 +53,10 @@ class ItemControllerTest {
 	@Test
 	void givenDoesNotExistItemId_whenGetItemDetails_thenResponse404NotFound() throws Exception {
 		int itemId = 99999999;
-		given(itemService.getItemDetails(itemId)).willThrow(new BusinessException(ErrorCode.ITEM_NOT_FOUND));
+		when(itemService.getItemDetails(itemId)).thenThrow(new BusinessException(ErrorCode.ITEM_NOT_FOUND));
 
 		mockMvc.perform(
-				get("/api/categories/1/items/" + itemId)
+			get("/api/categories/1/items/" + itemId)
 			).andDo(print())
 			.andExpect(status().isNotFound())
 			.andExpect(jsonPath("$.message").exists());
