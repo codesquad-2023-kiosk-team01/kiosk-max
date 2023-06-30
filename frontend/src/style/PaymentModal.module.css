@@ -1,0 +1,214 @@
+.modal {
+  box-sizing: border-box;
+  display: flex;
+  overflow: visible;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30px;
+  width: 1000px;
+  height: 700px;
+  border: 1px;
+  border-radius: 20px;
+  padding: 50px;
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%) translateX(-10px) translateY(10px);
+  font-size: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid black;
+}
+
+.closeLogo::before,
+.closeLogo::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  height: 40px;
+  width: 4px;
+  background-color: #000;
+}
+
+.closeLogo::before {
+  transform: rotate(45deg);
+}
+
+.closeLogo::after {
+  transform: rotate(-45deg);
+}
+
+.paymentButton {
+  width: 45%;
+  height: 80%;
+  background: #ff7d37;
+  font-size: 50px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.paymentImg {
+  width: 50%;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.indicator .indicatorWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.indicator::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.indicator .indicatorImg {
+  position: relative;
+  width: 150px;
+  animation: rotation 2s infinite linear;
+  z-index: 2;
+}
+
+.indicator .indicatorText {
+  position: relative;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  color: #f25907;
+  text-shadow: 2px 2px 2px #fff;
+  z-index: 2;
+}
+
+.buttonWrapper {
+  display: grid;
+  grid-gap: 60px;
+  grid-template-columns: 45% 45%;
+  justify-content: center;
+  align-items: center;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 100px 0;
+}
+
+.cashModalText {
+  width: 500px;
+  text-align: center;
+  font-size: 40px;
+}
+
+.increaseButton {
+  height: 150px;
+  border: none;
+  border-radius: 10px;
+  font-size: 50px;
+  color: white;
+  background: #ffbd16;
+  cursor: pointer;
+}
+
+.cashPaymentButton {
+  height: 100px;
+  font-size: 50px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  background: #ff7d37;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.cashPaymentButton:disabled {
+  opacity: 0.3;
+}
+
+.cashModal {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: visible;
+  font-size: 30px;
+  width: 1000px;
+  height: 800px;
+  border: 1px;
+  border-radius: 20px;
+}
+
+.closeButton {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%) translateX(-10px) translateY(10px);
+  font-size: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid black;
+}
+
+.closeLogo::before,
+.closeLogo::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 26px;
+  height: 40px;
+  width: 4px;
+  background-color: #000;
+}
+
+.closeLogo::before {
+  transform: rotate(45deg);
+}
+
+.closeLogo::after {
+  transform: rotate(-45deg);
+}

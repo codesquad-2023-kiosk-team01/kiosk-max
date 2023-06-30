@@ -2,21 +2,32 @@
   width: 100%;
   height: 100px;
   display: flex;
-  overflow-x: auto;
-  margin-bottom: 100px;
+  box-sizing: border-box;
+  overflow: scroll;
+  flex-shrink: 0;
 }
 
 .tabButton {
   width: 33.33%;
-  height: 80px;
+  height: 100px;
   background: none;
   flex: 0 0 auto;
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 35px;
   cursor: pointer;
   border: 1px solid black;
 }
 
 .selected {
-  color: red;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  background: #ff7d37;
+}
+
+.navigation::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.navigation {
+  scrollbar-width: none; /* Firefox */
 }

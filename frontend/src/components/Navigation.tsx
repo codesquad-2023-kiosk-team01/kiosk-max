@@ -1,44 +1,58 @@
+import { useState, useEffect } from "react";
 import styles from "../style/Navigation.module.css";
-import {
-  NavigationProps,
-  TabButtonProps,
-  TabMockDataType,
-} from "../utils/types";
 
-const TabButton = ({ selectedTab, label, onClick }: TabButtonProps) => {
+type TabMockDataType = {
+  id: number;
+  name: string;
+};
+
+type TabButtonProps = {
+  categoryId: number;
+  label: TabMockDataType;
+  onClick: () => void;
+};
+
+type NavigationProps = {
+  categoryId: number;
+  handleTabClick: (id: number) => void;
+};
+
+export const Navigation = ({ categoryId, handleTabClick }: NavigationProps) => {
+  const [navigationData, setNavigationData] = useState<TabMockDataType[]>([]);
+
+  useEffect(() => {
+    const fetchNavigation = async () => {
+      const response = await fetch("http://43.201.168.11:8080/api/categories");
+      const data = await response.json();
+
+      setNavigationData(data);
+    };
+
+    fetchNavigation();
+  }, []);
+
+  return (
+    <div className={styles.navigation}>
+      {navigationData.map((item, index) => (
+        <TabButton
+          key={index}
+          label={item}
+          categoryId={categoryId}
+          onClick={() => handleTabClick(item.id)}
+        />
+      ))}
+    </div>
+  );
+};
+
+const TabButton = ({ categoryId, label, onClick }: TabButtonProps) => {
   const className = `${styles.tabButton} ${
-    label === selectedTab ? styles.selected : ""
+    label.id === categoryId && styles.selected
   }`;
 
   return (
     <button className={className} onClick={onClick}>
-      {label}
+      {label.name}
     </button>
-  );
-};
-
-export const Navigation = ({
-  selectedTab,
-  handleTabClick,
-}: NavigationProps) => {
-  const mockData: TabMockDataType[] = [
-    "커피",
-    "라떼",
-    "티",
-    "쥬스",
-    "디카페인",
-  ];
-
-  return (
-    <div className={styles.navigation}>
-      {mockData.map((item, index) => (
-        <TabButton
-          key={index}
-          label={item}
-          selectedTab={selectedTab}
-          onClick={() => handleTabClick(item)}
-        />
-      ))}
-    </div>
   );
 };
