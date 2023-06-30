@@ -1,13 +1,18 @@
 name: ci-cd
 
 on:
+  push:
+    branches:
+      - release
+      - backend
   pull_request:
     branches:
       - release
+      - backend
 
 env:
   working-directory: ./backend
-  APPLICATION_PROPERTIES_FILE_PATH: ./src/main/resources/application.yml
+  APPLICATION_PROPERTIES_FILE_PATH: ./src/main/resources/application-prod.yml
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: kiosk-team01-actions-bucket
   CODE_DEPLOY_APPLICATION_NAME: kiosk-codedeploy-app
@@ -23,7 +28,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./backend
-
+    
     steps:
 
       # 0. Source 단계
@@ -37,7 +42,7 @@ jobs:
           distribution: 'temurin'
 
       # 1. db 정보를 담은 yml 파일 생성
-      - name: Make application.yml file
+      - name: Make application-prod.yml file
         run: touch '${{ env.APPLICATION_PROPERTIES_FILE_PATH }}'
 
       - name: Output application information
@@ -49,14 +54,14 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
 
         # 3. S3에 파일 업로드(zip 으로 압축 → AWS 권한 부여 → S3로 전송)
         # 3.1 zip 으로 압축
       - name: Make zip file
         run: zip -r ./$GITHUB_SHA.zip .
 
-        # 3.1 AWS 권한 부여
+        # 3.2 AWS 권한 부여
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

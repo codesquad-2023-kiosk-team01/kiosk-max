@@ -1,12 +1,13 @@
 package kr.codesquad.kiosk.item.service;
 
-import kr.codesquad.kiosk.exception.BusinessException;
-import kr.codesquad.kiosk.exception.ErrorCode;
-import kr.codesquad.kiosk.fixture.FixtureFactory;
-import kr.codesquad.kiosk.item.controller.dto.response.ItemDetailsResponse;
-import kr.codesquad.kiosk.item.domain.Item;
-import kr.codesquad.kiosk.item.domain.Options;
-import kr.codesquad.kiosk.item.repository.ItemRepository;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,13 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.BDDMockito.*;
+import kr.codesquad.kiosk.exception.BusinessException;
+import kr.codesquad.kiosk.exception.ErrorCode;
+import kr.codesquad.kiosk.fixture.FixtureFactory;
+import kr.codesquad.kiosk.item.controller.dto.response.ItemDetailsResponse;
+import kr.codesquad.kiosk.item.controller.dto.response.OptionsResponse;
+import kr.codesquad.kiosk.item.domain.Item;
+import kr.codesquad.kiosk.item.domain.Options;
+import kr.codesquad.kiosk.item.repository.ItemRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ItemServiceTest {
@@ -38,7 +40,7 @@ class ItemServiceTest {
 		int itemId = 1;
 		Item item = FixtureFactory.createItem();
 		Map<String, List<Options>> optionsMap = FixtureFactory.createOptionsMap();
-		Map<String, List<String>> options = FixtureFactory.createOptions();
+		Map<String, List<OptionsResponse>> options = FixtureFactory.createOptions();
 
 		given(itemRepository.findById(anyInt())).willReturn(Optional.of(item));
 		given(itemRepository.findOptionsByItemId(anyInt())).willReturn(optionsMap);
@@ -66,11 +68,11 @@ class ItemServiceTest {
 
 		// when & then
 		assertAll(
-				() -> assertThatThrownBy(() -> itemService.getItemDetails(itemId))
-						.isInstanceOf(BusinessException.class)
-						.extracting("errorCode").isEqualTo(ErrorCode.ITEM_NOT_FOUND),
-				() -> then(itemRepository).should().findById(anyInt()),
-				() -> then(itemRepository).should(times(0)).findOptionsByItemId(anyInt())
+			() -> assertThatThrownBy(() -> itemService.getItemDetails(itemId))
+				.isInstanceOf(BusinessException.class)
+				.extracting("errorCode").isEqualTo(ErrorCode.ITEM_NOT_FOUND),
+			() -> then(itemRepository).should().findById(anyInt()),
+			() -> then(itemRepository).should(times(0)).findOptionsByItemId(anyInt())
 		);
 	}
 }
