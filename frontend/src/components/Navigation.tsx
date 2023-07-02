@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../style/Navigation.module.css";
 
 type TabMockDataType = {
@@ -19,6 +19,7 @@ type NavigationProps = {
 
 export const Navigation = ({ categoryId, handleTabClick }: NavigationProps) => {
   const [navigationData, setNavigationData] = useState<TabMockDataType[]>([]);
+  const navigationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchNavigation = async () => {
@@ -31,8 +32,23 @@ export const Navigation = ({ categoryId, handleTabClick }: NavigationProps) => {
     fetchNavigation();
   }, []);
 
+  useEffect(() => {
+    const element = navigationRef.current;
+    const scrollHandler = (event: WheelEvent) => {
+      event.preventDefault();
+      if (element) {
+        element.scrollLeft += event.deltaY;
+      }
+    };
+
+    element?.addEventListener("wheel", scrollHandler);
+    return () => {
+      element?.removeEventListener("wheel", scrollHandler);
+    };
+  }, []);
+
   return (
-    <div className={styles.navigation}>
+    <div className={styles.navigation} ref={navigationRef}>
       {navigationData.map((item, index) => (
         <TabButton
           key={index}
