@@ -62,11 +62,11 @@ export const Receipt = ({
                       .join(" / ")}
                   </div>
                 </td>
-                <td className={styles.unitPrice}>{item.price}</td>
-                <td className={styles.quantity}>{item.quantity}</td>
-                <td className={styles.amount}>
-                  {item.price * item.quantity}원
+                <td className={styles.unitPrice}>
+                  {item.price / item.quantity}
                 </td>
+                <td className={styles.quantity}>{item.quantity}</td>
+                <td className={styles.amount}>{item.price}원</td>
               </tr>
             ))}
             <tr>
