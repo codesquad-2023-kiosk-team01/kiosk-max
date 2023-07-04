@@ -1,0 +1,60 @@
+.content {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 100px;
+}
+
+.menuList {
+  display: grid;
+  grid-gap: 60px;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 45% 45%;
+}
+
+.menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border: 1px solid black;
+  padding: 30px 0;
+}
+
+.menu .textDiv {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.menu img {
+  width: 60%;
+}
+
+.logoImg {
+  width: 100%;
+}
+
+.signature {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  background: #ffbd16;
+  top: -40px;
+  left: -30px;
+}
